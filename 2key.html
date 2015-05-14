@@ -1,0 +1,124 @@
+<html>
+<head>
+<link href="css/styles.css" media="screen" rel="stylesheet" type="text/css" />	
+
+		<div id="site_title">
+			<span>2 Button Keyboard</span>
+			<br>
+		</div>			
+<script type="text/javascript">
+
+	document.onkeyup = KeyCheck; 
+	document.onmouseup = MouseCheck;
+	
+	var splitChar = " | ";
+	var firstAlpha 	= " ABCDEFGHIJKL";
+	var secondAlpha = "MNOPQRSTUVWXYZ";
+	var displayString=firstAlpha+splitChar+secondAlpha;
+	var accumText="";
+	document.Form1.KeyName1.value =displayString;
+	
+	function MouseCheck()
+	{
+		var MouseID = event.button;
+		if(event.button <2)
+		{		
+			if(event.pageX < window.innerWidth/2)
+				updateLeft();
+			else
+				updateRight();
+				
+			updateDisplay();
+			showTextLeft(displayString);
+		}
+	}
+	function KeyCheck()
+	{
+	   var KeyID = event.keyCode;
+		
+	   switch(KeyID)
+	   {
+	   //38 up
+	   //40 down
+	   //97-105, 1-9, numpad
+	   
+			case 37:
+			//case 49:
+			//case 54:
+				updateLeft();
+				break;		
+			case 39:
+				updateRight();
+				break;
+			//default:
+				//displayString = KeyID;
+				
+		}	
+		if(KeyID == 37 || KeyID ==39)
+		{
+			updateDisplay();
+
+		}
+		
+		//document.Form1.KeyName1.value =displayString;
+		showTextLeft(displayString);
+	
+	}
+	function updateDisplay()
+	{
+		if(displayString.length <=1)
+		{
+			accumText = accumText+displayString;
+			showTextAccum(accumText)
+			displayString = firstAlpha+splitChar+secondAlpha;
+		}
+		else
+		{
+			displayString =  displayString.substring(0,displayString.length/2)+
+			" | " + displayString.substring(displayString.length/2)
+		}
+	}
+	function updateLeft()
+	{
+		displayString =  displayString.replace(splitChar,"");								
+		displayString = displayString.substring(0,displayString.length/2);			
+	}
+	function updateRight()
+	{
+		displayString =  displayString.replace(splitChar,"");				
+		displayString = displayString.substring(displayString.length/2,displayString.length);
+	}
+	function showTextLeft(fieldName) {
+		var fieldNameElement = document.getElementById("textLeft");
+		while(fieldNameElement.childNodes.length >= 1) {
+			fieldNameElement.removeChild(fieldNameElement.firstChild);
+		}
+		fieldNameElement.appendChild(fieldNameElement.ownerDocument.createTextNode(fieldName));
+	}
+	function showTextAccum(fieldName) {
+		var fieldNameElement = document.getElementById("textAccum");
+		while(fieldNameElement.childNodes.length >= 1) {
+			fieldNameElement.removeChild(fieldNameElement.firstChild);
+		}
+		fieldNameElement.appendChild(fieldNameElement.ownerDocument.createTextNode(fieldName));
+	}		
+	
+</script>
+
+</head>
+
+<body>
+<form name="Form1">
+<div style="width:100%;margin-top:50px;margin-left:auto;margin-right:auto">
+		
+	<div id="textLeft"> ABCDEFGHIJKL | MNOPQRSTUVWXYZ</div>	
+	</br></br></br></br>
+	<div id="textAccum">__________________</div>	
+	
+	
+</div>	
+
+</form>
+
+</body>
+</html>
